@@ -7,7 +7,7 @@
 1. As planilhas devem estar no formato Excel (.xlsx)
 2. Devem conter a aba "Planilha1"
 3. Colunas obrigatórias:
-   - GCPJ
+   - item
    - Tipo de Sentença
    - Valor Contraproposta
    - Usuário Serv

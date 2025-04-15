@@ -63,7 +63,7 @@ logger = setup_logging()
 def validar_colunas(df):
     """Valida se todas as colunas obrigatórias estão presentes"""
     colunas_obrigatorias = [
-        'GCPJ',
+        'item',
         'Tipo de Sentença',
         'Valor Contraproposta',
         'Usuário Serv',
@@ -83,8 +83,8 @@ def importar_planilha(caminho_arquivo):
         df = pd.read_excel(caminho_arquivo)
         logger.info(f"Arquivo lido com sucesso. Total de linhas: {len(df)}")
         
-        # Remove duplicatas de GCPJ
-        df = df.drop_duplicates(subset=['GCPJ'], keep='first')
+        # Remove duplicatas de item
+        df = df.drop_duplicates(subset=['item'], keep='first')
         logger.info(f"Após remoção de duplicatas: {len(df)} linhas")
         
         # Valida colunas
@@ -93,7 +93,7 @@ def importar_planilha(caminho_arquivo):
         
         # Renomeia colunas para o formato do banco
         mapeamento_colunas = {
-            'GCPJ': 'gcpj',
+            'item': 'item',
             'Tipo de Sentença': 'tipo_sentenca',
             'Valor Contraproposta': 'contra',
             'Usuário Serv': 'usuario_serv',
@@ -115,10 +115,10 @@ def importar_planilha(caminho_arquivo):
         # Processa cada linha
         for index, row in df.iterrows():
             try:
-                # Converte GCPJ para string
-                gcpj = str(row['gcpj']) if pd.notna(row['gcpj']) else None
-                if not gcpj:
-                    logger.warning(f"Linha {index + 1}: GCPJ vazio ou inválido")
+                # Converte item para string
+                item = str(row['item']) if pd.notna(row['item']) else None
+                if not item:
+                    logger.warning(f"Linha {index + 1}: item vazio ou inválido")
                     erros += 1
                     continue
                 
@@ -129,7 +129,7 @@ def importar_planilha(caminho_arquivo):
                 usuario_autojur = str(row['usuario_autojur'])[:250] if pd.notna(row['usuario_autojur']) else None
                 
                 processo = TblProcessos(
-                    gcpj=gcpj,
+                    item=item,
                     tipo_sentenca=tipo_sentenca,
                     contra=contra,
                     usuario_serv=usuario_serv,
@@ -139,7 +139,7 @@ def importar_planilha(caminho_arquivo):
                 )
                 
                 # Verifica se processo já existe
-                existente = session.query(TblProcessos).filter_by(gcpj=gcpj).first()
+                existente = session.query(TblProcessos).filter_by(item=item).first()
                 if existente:
                     # Atualiza dados mantendo o estado de atribuição e classificação
                     if tipo_sentenca:
@@ -151,12 +151,12 @@ def importar_planilha(caminho_arquivo):
                     if usuario_autojur:
                         existente.usuario_autojur = usuario_autojur
                     registros_atualizados += 1
-                    logger.info(f"Processo {gcpj} atualizado")
+                    logger.info(f"Processo {item} atualizado")
                 else:
                     # Insere novo
                     session.add(processo)
                     registros_inseridos += 1
-                    logger.info(f"Novo processo {gcpj} inserido")
+                    logger.info(f"Novo processo {item} inserido")
                 
                 # Commit a cada 50 registros para evitar transações muito longas
                 if (index + 1) % 50 == 0:
@@ -165,7 +165,7 @@ def importar_planilha(caminho_arquivo):
             
             except Exception as e:
                 erros += 1
-                logger.error(f"Erro ao processar linha {index + 1} (GCPJ: {row.get('gcpj', 'N/A')}): {str(e)}")
+                logger.error(f"Erro ao processar linha {index + 1} (item: {row.get('item', 'N/A')}): {str(e)}")
                 logger.error(f"Traceback: {traceback.format_exc()}")
                 # Rollback da transação atual e continua para a próxima linha
                 session.rollback()

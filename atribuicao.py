@@ -37,19 +37,19 @@ async def navegar_menu(page):
     await page.wait_for_timeout(3000)
     print("Menu navegado.")
 
-# Função para preencher o campo GCPJ via OpenCV (usa o template "input_filtro_gcpj_grupo.png")
-async def preencher_gcpj(page, gcpj):
-    print("Preenchendo campo GCPJ via OpenCV...")
+# Função para preencher o campo item via OpenCV (usa o template "input_filtro_item_grupo.png")
+async def preencher_item(page, item):
+    print("Preenchendo campo item via OpenCV...")
     screenshot_path = "screenshot.png"
     await page.screenshot(path=screenshot_path, full_page=True)
     print("Screenshot capturada.")
 
     img = cv2.imread(screenshot_path)
-    template = cv2.imread("input_filtro_gcpj_grupo.png")
+    template = cv2.imread("input_filtro_item_grupo.png")
     if img is None:
         raise Exception("Erro ao carregar a screenshot.")
     if template is None:
-        raise Exception("Erro ao carregar o template 'input_filtro_gcpj_grupo.png'. Verifique se o arquivo existe no caminho correto.")
+        raise Exception("Erro ao carregar o template 'input_filtro_item_grupo.png'. Verifique se o arquivo existe no caminho correto.")
 
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     template_gray = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
@@ -66,17 +66,17 @@ async def preencher_gcpj(page, gcpj):
     h, w = template_gray.shape
     center_x = x + w / 2
     center_y = y + h / 2
-    print(f"Elemento GCPJ encontrado em: x={center_x:.0f}, y={center_y:.0f}")
+    print(f"Elemento item encontrado em: x={center_x:.0f}, y={center_y:.0f}")
     
     await page.mouse.move(center_x, center_y)
     await page.mouse.click(center_x, center_y)
-    print("Clique realizado no elemento GCPJ via OpenCV.")
+    print("Clique realizado no elemento item via OpenCV.")
     
     await page.wait_for_timeout(1000)
-    await page.keyboard.type(gcpj, delay=50)
+    await page.keyboard.type(item, delay=50)
     await page.wait_for_timeout(1000)
     await page.keyboard.press("Enter")
-    print("Valor preenchido e Enter pressionado no campo GCPJ.")
+    print("Valor preenchido e Enter pressionado no campo item.")
 
 # Função genérica para esperar que um texto fique visível via OCR e clicar nele
 async def click_text(page, texto, timeout=15, interval=1):
@@ -194,8 +194,8 @@ async def run():
         
         await login(page)
         await navegar_menu(page)
-        # Preenche o campo GCPJ com o valor "2201043253"
-        await preencher_gcpj(page, "2201043253")
+        # Preenche o campo item com o valor "2201043253"
+        await preencher_item(page, "2201043253")
         # Usa a função genérica para clicar em um elemento cujo texto inicia com "SAJ" via OCR
         await click_text(page, "SAJ", timeout=15, interval=1)
         # Exemplo de uso da nova função: clicar em um elemento cujo template está no arquivo "meu_template.png"

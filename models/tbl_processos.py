@@ -13,7 +13,7 @@ class TblProcessos(Base, CRUDMixin):
     __table_args__ = {'schema': get_schema()}
     
     id = Column(BigInteger, primary_key=True, autoincrement=True)
-    gcpj = Column(String(20), nullable=False, unique=True, index=True)
+    item = Column(String(20), nullable=False, unique=True, index=True)
     tipo_sentenca = Column(String(100))
     contra = Column(String(100))
     usuario_serv = Column(String(250))
@@ -27,20 +27,20 @@ class TblProcessos(Base, CRUDMixin):
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
 
     def __init__(self, **kwargs):
-        # Converte GCPJ para string se for número
-        if 'gcpj' in kwargs and kwargs['gcpj'] is not None:
-            kwargs['gcpj'] = str(kwargs['gcpj'])
+        # Converte item para string se for número
+        if 'item' in kwargs and kwargs['item'] is not None:
+            kwargs['item'] = str(kwargs['item'])
         super().__init__(**kwargs)
     
     def __repr__(self):
-        return f"<TblProcessos(gcpj='{self.gcpj}', tipo_sentenca='{self.tipo_sentenca}')>"
+        return f"<TblProcessos(item='{self.item}', tipo_sentenca='{self.tipo_sentenca}')>"
     
     @classmethod
-    def find_by_gcpj(cls, gcpj):
+    def find_by_item(cls, item):
         """
-        Encontra um processo pelo número do GCPJ.
+        Encontra um processo pelo número do item.
         """
-        return cls.get(where=[('gcpj', gcpj)])
+        return cls.get(where=[('item', item)])
     
     
     @classmethod
@@ -86,11 +86,11 @@ class TblProcessos(Base, CRUDMixin):
             session.close()
     
     @classmethod
-    def marcar_classificado(cls, gcpj):
+    def marcar_classificado(cls, item):
         """
         Marca um processo como classificado.
         """
-        processo = cls.find_by_gcpj(gcpj)
+        processo = cls.find_by_item(item)
         if processo:
             processo.update(classificado=True)
             return True

@@ -66,7 +66,7 @@ async def executar_atribuicao():
         # aqui eu preciso de um loop para cada usuario
         for usuario in usuarios:
             logger_atribuicao.info("-" * 65)
-            logger_atribuicao.info(f"Atribuindo gcpj(s) para o usuario: {usuario}")
+            logger_atribuicao.info(f"Atribuindo item(s) para o usuario: {usuario}")
             
             # Obtém processos não atribuídos
             processos = obter_processos_nao_atribuidos(usuario)
@@ -82,7 +82,7 @@ async def executar_atribuicao():
             
             # # Marca os processos como atribuídos
             # for processo in processos:
-            #     TblProcessos.marcar_atribuido(processo.gcpj)
+            #     TblProcessos.marcar_atribuido(processo.item)
                 
             logger_atribuicao.info(f"Processo de atribuição concluído para o usuário {usuario}")
         
@@ -109,7 +109,7 @@ async def executar_classificacao():
         
         # Marca os processos como classificados
         for processo in processos:
-            TblProcessos.marcar_classificado(processo.gcpj)
+            TblProcessos.marcar_classificado(processo.item)
             
         logger_classificacao.info("Processo de classificação concluído")
         

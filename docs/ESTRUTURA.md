@@ -40,7 +40,7 @@ projeto/
 - **TblProcessos**:
   - Campos:
     - `id`: Identificador único
-    - `gcpj`: Número do processo
+    - `item`: Número do processo
     - `tipo_sentenca`: Tipo da sentença
     - `valor_contraproposta`: Valor da contraproposta
     - `usuario_serv`: Usuário do serviço
@@ -49,7 +49,7 @@ projeto/
     - `atribuido`: Status de atribuição
     - `classificado`: Status de classificação
   - Métodos:
-    - `find_by_gcpj()`: Busca por GCPJ
+    - `find_by_item()`: Busca por item
     - `find_nao_atribuidos()`: Lista processos não atribuídos
     - `find_nao_classificados()`: Lista processos não classificados
     - `marcar_atribuido()`: Atualiza status de atribuição

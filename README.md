@@ -61,7 +61,7 @@ DB_PASSWORD=sua_senha
 A tabela `tbl_processos` possui os seguintes campos:
 
 - `id`: BigInteger, chave primária
-- `gcpj`: String(20), único, índice
+- `item`: String(20), único, índice
 - `tipo_sentenca`: String(100)
 - `contra`: String(100)
 - `usuario_serv`: String(250)
@@ -83,7 +83,7 @@ python importador.py
 O script irá:
 
 - Validar as colunas obrigatórias
-- Remover duplicatas de GCPJ
+- Remover duplicatas de item
 - Importar os dados para o banco
 - Mover o arquivo para `processed/` em caso de sucesso
 - Mover o arquivo para `error/` em caso de falha
@@ -105,7 +105,7 @@ Os logs são gerados na pasta `logs/` com o formato:
 
 O sistema trata os seguintes casos:
 
-- Duplicatas de GCPJ (mantém o primeiro registro)
+- Duplicatas de item (mantém o primeiro registro)
 - Campos de texto excedendo o limite (trunca automaticamente)
 - Erros de conexão com o banco
 - Arquivos inválidos ou mal formatados

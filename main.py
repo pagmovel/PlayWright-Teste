@@ -56,32 +56,32 @@ async def navegar_menu(page):
     # await page.wait_for_timeout(300000)
     print("- Menu navegado.")
 
-# Função para preencher o campo GCPJ via OpenCV (usa o template "input_filtro_gcpj_grupo.png")
-async def preencher_gcpj(page, gcpj):
+# Função para preencher o campo item via OpenCV (usa o template "input_filtro_item_grupo.png")
+async def preencher_item(page, item):
     
-    # print("Preenchendo campo GCPJ via OpenCV...")
+    # print("Preenchendo campo item via OpenCV...")
     # screenshot_path = "screenshot.png"
     # await page.screenshot(path=screenshot_path, full_page=True)
     # print("Screenshot capturada.")
 
     # img = cv2.imread(screenshot_path)
-    # template = cv2.imread("input_filtro_gcpj_grupo.png")
+    # template = cv2.imread("input_filtro_item_grupo.png")
     
         
-    print("- Preenchendo campo GCPJ via OpenCV...")
+    print("- Preenchendo campo item via OpenCV...")
     screenshot_path = os.path.join(TEMPLATES_DIR, "screenshot.png")
     await page.screenshot(path=screenshot_path, full_page=True)
     # print(f"Screenshot capturada e salva em: {screenshot_path}")
 
     img = cv2.imread(screenshot_path)
-    template = cv2.imread(os.path.join(TEMPLATES_DIR, "input_filtro_gcpj_grupo.png"))
+    template = cv2.imread(os.path.join(TEMPLATES_DIR, "input_filtro_item_grupo.png"))
     
     
     
     if img is None:
         raise Exception("- [Erro] Ao carregar a screenshot.")
     if template is None:
-        raise Exception("- [Erro] Ao carregar o template 'input_filtro_gcpj_grupo.png'. Verifique se o arquivo existe no caminho correto.")
+        raise Exception("- [Erro] Ao carregar o template 'input_filtro_item_grupo.png'. Verifique se o arquivo existe no caminho correto.")
 
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     template_gray = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
@@ -98,17 +98,17 @@ async def preencher_gcpj(page, gcpj):
     h, w = template_gray.shape
     center_x = x + w / 2
     center_y = y + h / 2
-    print(f"- Elemento GCPJ encontrado em: x={center_x:.0f}, y={center_y:.0f}")
+    print(f"- Elemento item encontrado em: x={center_x:.0f}, y={center_y:.0f}")
     
     await page.mouse.move(center_x, center_y)
     await page.mouse.click(center_x, center_y)
-    print("- Clique realizado no elemento GCPJ via OpenCV.")
+    print("- Clique realizado no elemento item via OpenCV.")
     
     await page.wait_for_timeout(1000)
-    await page.keyboard.type(gcpj, delay=50)
+    await page.keyboard.type(item, delay=50)
     await page.wait_for_timeout(1000)
     await page.keyboard.press("Enter")
-    print("- Valor preenchido e Enter pressionado no campo GCPJ.")
+    print("- Valor preenchido e Enter pressionado no campo item.")
 
 # Função genérica para esperar que um texto fique visível via OCR e clicar nele
 async def click_text(page, texto, timeout=15, interval=1):
@@ -334,7 +334,7 @@ async def atualizar_registro(dado, **kwargs):
         TblProcessos.atualizar_status_processo(dado, **kwargs)
         print(f"- ID: {dado.id} Atualizado com sucesso")
     except Exception as e:
-        print(f"- ID: {dado.id} - GCPJ: {dado.gcpj} - Erro ao atualizar o banco de dados")
+        print(f"- ID: {dado.id} - item: {dado.item} - Erro ao atualizar o banco de dados")
         print(f"- Erro ao atualizar o processo: {e}")
 
 # Função principal
@@ -353,7 +353,7 @@ async def run():
         # aqui eu preciso de um loop para cada usuario
         for usuario in usuarios:
             print("-" * 65, flush=True)
-            print(f"- Atribuindo gcpj(s) para o usuario: {usuario}")
+            print(f"- Atribuindo item(s) para o usuario: {usuario}")
             
             # Obtém processos não atribuídos
             processos = TblProcessos.processos_nao_atribuidos_por_usuario(usuario, valor=True)
@@ -383,15 +383,15 @@ async def run():
                 await navegar_menu(page)
                 
                 # ----------------------------------------------------------------
-                # ATRIBUIR GCPJ
+                # ATRIBUIR item
                 # ----------------------------------------------------------------
                 print("-" * 50) 
-                print("- Atribuir GCPJ:")
+                print("- Atribuir item:")
                 print("-" * 50) 
                 try:
-                    print(dado.id, dado.gcpj)                
-                    # Preenche o campo GCPJ com o valor "2201043253"
-                    await preencher_gcpj(page, dado.gcpj)
+                    print(dado.id, dado.item)                
+                    # Preenche o campo item com o valor "2201043253"
+                    await preencher_item(page, dado.item)
                     
                     sleep(2)
                 
@@ -401,17 +401,17 @@ async def run():
                     # Clicar em ATRIBUIR PARA MIM
                     try:
                         await clicar_por_template(page, "btn_atribuir_para_mim.png", threshold=0.8)
-                        print(f"- ID: {dado.id} - GCPJ: {dado.gcpj} Atribuido com sucesso")
+                        print(f"- ID: {dado.id} - item: {dado.item} Atribuido com sucesso")
                     except Exception as e:
                         await atualizar_registro(dado, ja_atribuido=True)  # Atualiza só atribuido
                         
                     
-                    # Salva ATRIBUIÇÃO GCPJ
+                    # Salva ATRIBUIÇÃO item
                     try:
                         TblProcessos.atualizar_status_processo(dado, atribuido=True)
                         print(f"- ID: {dado.id} ATRIBUIÇÃO Atualizada com sucesso")
                     except Exception as e:
-                        print(f"- ID: {dado.id} - GCPJ: {dado.gcpj} Atribuido, MAS DEU ERRO AO ATUALIZOU O BANCO DE DADOS")
+                        print(f"- ID: {dado.id} - item: {dado.item} Atribuido, MAS DEU ERRO AO ATUALIZOU O BANCO DE DADOS")
                         print(f"- Erro ao atualizar o processo: {e}")
                     
                 except Exception as e:
@@ -473,7 +473,7 @@ async def run():
                     await clicar_por_template(page, "btn_atualizar_valor.png", threshold=0.8, timeout=15, interval=1, delay=1)
                 
                 except Exception as e:
-                    print(f"- [Erro] Ao classificar o gcpj: {dado.gcpj}")
+                    print(f"- [Erro] Ao classificar o item: {dado.item}")
                     continue
                 
                 try:
@@ -482,7 +482,7 @@ async def run():
                     await atualizar_registro(dado, classificado=True)  # Atualiza só atribuido
                     print(f"- ID: {dado.id} CLASSIFICAÇÃO Atualizada com sucesso")
                 except Exception as e:
-                    print(f"- ID: {dado.id} - GCPJ: {dado.gcpj} Classificou, MAS DEU ERRO AO CLASSIFICOU O BANCO DE DADOS")
+                    print(f"- ID: {dado.id} - item: {dado.item} Classificou, MAS DEU ERRO AO CLASSIFICOU O BANCO DE DADOS")
                     print(f"- [Erro] Ao atualizar o processo: {e}")
                     
                 await page.wait_for_timeout(3000)

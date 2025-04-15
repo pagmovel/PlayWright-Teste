@@ -57,7 +57,7 @@ def validar_colunas(df):
     """
     # Lista de colunas esperadas
     colunas_esperadas = [
-        'GCPJ',
+        'item',
         'Tipo de Sentença',
         'Valor Contraproposta',
         'Usuário Serv',
@@ -99,8 +99,8 @@ def importar_planilha(arquivo):
         
         # Processa cada linha da planilha
         for _, row in df.iterrows():
-            # Verifica se o processo já existe pelo GCPJ
-            processo_existente = TblProcessos.find_by_gcpj(str(row['GCPJ']))
+            # Verifica se o processo já existe pelo item
+            processo_existente = TblProcessos.find_by_item(str(row['item']))
             
             if processo_existente:
                 # Atualiza o processo existente
@@ -112,11 +112,11 @@ def importar_planilha(arquivo):
                     'ordem_servico': ordem_servico
                 }
                 processo_existente.update(**dados_atualizacao)
-                logger.info(f"Processo atualizado: {row['GCPJ']}")
+                logger.info(f"Processo atualizado: {row['item']}")
             else:
                 # Cria um novo processo
                 dados_processo = {
-                    'gcpj': str(row['GCPJ']),
+                    'item': str(row['item']),
                     'tipo_sentenca': str(row['Tipo de Sentença']) if 'Tipo de Sentença' in row else None,
                     'valor_contraproposta': str(row['Valor Contraproposta']) if 'Valor Contraproposta' in row else None,
                     'usuario_serv': str(row['Usuário Serv']) if 'Usuário Serv' in row else None,
@@ -124,7 +124,7 @@ def importar_planilha(arquivo):
                     'ordem_servico': ordem_servico
                 }
                 TblProcessos.insert(dados_processo)
-                logger.info(f"Novo processo adicionado: {row['GCPJ']}")
+                logger.info(f"Novo processo adicionado: {row['item']}")
         
         logger.info(f"Importação concluída: {arquivo}")
         
