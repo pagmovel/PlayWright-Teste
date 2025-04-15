@@ -8,7 +8,7 @@
             "password": "^zDGqGKLoOpayitW",
             "host": "192.168.12.21",
             "port": "5433",
-            "schema": "servicenow"
+            "schema": "public"
         },
         "dev": {
             "database": "pgsql",
@@ -17,7 +17,7 @@
             "password": "4Ut0juR!",
             "host": "192.168.12.21",
             "port": "54320",
-            "schema": "servicenow"
+            "schema": "public"
         },
         "autokit": {
             "database": "pgsql",
@@ -33,7 +33,7 @@
         "server": "ldap://192.168.12.1",
         "user": "admin smart",
         "password": "rmsfor@2231",
-        "base_dn": "OU=RMS,DC=rochamarinho,DC=adv,DC=br"
+        "base_dn": "OU=RMS,DC=domain,DC=adv,DC=br"
     },
     "require_email": true,
     "email": {

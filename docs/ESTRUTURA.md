@@ -125,7 +125,7 @@ DB_NAME=banco
       "password": "senha_prod",
       "host": "host_prod",
       "port": "5433",
-      "schema": "servicenow"
+      "schema": "public"
     },
     "dev": {
       "database": "pgsql",
@@ -134,7 +134,7 @@ DB_NAME=banco
       "password": "senha_dev",
       "host": "host_dev",
       "port": "54320",
-      "schema": "servicenow"
+      "schema": "public"
     },
     "autokit": {
       "database": "pgsql",
@@ -150,7 +150,7 @@ DB_NAME=banco
     "server": "ldap://servidor",
     "user": "usuario_ldap",
     "password": "senha_ldap",
-    "base_dn": "OU=RMS,DC=rochamarinho,DC=adv,DC=br"
+    "base_dn": "OU=RMS,DC=domain,DC=adv,DC=br"
   },
   "require_email": true,
   "email": {

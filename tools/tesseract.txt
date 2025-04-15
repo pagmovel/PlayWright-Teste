@@ -7,7 +7,7 @@ No prompt de comando, navegue até o diretório do seu script e execute:
 
 cmd
 Copiar
-dir d:\docker\ServiceNow\tesseract.exe
+dir d:\docker\public\tesseract.exe
 Certifique-se de que o arquivo realmente aparece nessa pasta.
 
 Verifique se o nome está correto:
@@ -21,7 +21,7 @@ Copiar
 tesseract_path = os.path.join(os.getcwd(), "tesseract.exe")
 print("Caminho definido para Tesseract:", tesseract_path)
 pytesseract.pytesseract.tesseract_cmd = tesseract_path
-Assim, você pode confirmar se o caminho é realmente d:\docker\ServiceNow\tesseract.exe.
+Assim, você pode confirmar se o caminho é realmente d:\docker\public\tesseract.exe.
 
 Se o arquivo não existir:
 Você precisará instalar o Tesseract OCR. No Windows, uma opção recomendada é baixar o instalador do UB Mannheim Tesseract e instalá-lo.
@@ -33,11 +33,11 @@ Pode ser um problema de permissões ou de incompatibilidade. Tente executar o te
 
 cmd
 Copiar
-d:\docker\ServiceNow\tesseract.exe --version
+d:\docker\public\tesseract.exe --version
 Se isso não funcionar, é possível que o executável não seja o correto ou esteja corrompido.
 
 Resumo:
-Certifique-se de que o arquivo tesseract.exe está realmente na pasta d:\docker\ServiceNow\ e com o nome correto.
+Certifique-se de que o arquivo tesseract.exe está realmente na pasta d:\docker\public\ e com o nome correto.
 
 Se não estiver, instale o Tesseract e configure o caminho.
 
