@@ -7,7 +7,7 @@ from datetime import datetime
 
 class TblProcessos(Base, CRUDMixin):
     """
-    Modelo para armazenar os processos do Bradesco importados das planilhas.
+    Modelo para armazenar os processos do BancoX importados das planilhas.
     """
     __tablename__ = 'tbl_processos'
     __table_args__ = {'schema': get_schema()}

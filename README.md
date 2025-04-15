@@ -1,6 +1,6 @@
 # Sistema Automação WEB
 
-Sistema para importação de processos do Bradesco para o WEB.
+Sistema para importação de processos do BancoX para o WEB.
 
 ## Estrutura do Projeto
 

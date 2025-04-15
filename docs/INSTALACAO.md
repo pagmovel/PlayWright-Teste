@@ -57,8 +57,8 @@ DB_PASS=sua_senha
 DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=nome_do_banco
-USER=seu_usuario_bradesco
-PASS=sua_senha_bradesco
+USER=seu_usuario_BancoX
+PASS=sua_senha_BancoX
 ```
 
 5. Configure o arquivo config.json:

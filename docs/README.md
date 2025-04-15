@@ -1,8 +1,8 @@
-# Sistema de Importação e Execução de Processos Bradesco
+# Sistema de Importação e Execução de Processos BancoX
 
 ## Visão Geral
 
-Este sistema é responsável por automatizar o processo de importação e execução de processos do Bradesco. Ele consiste em dois módulos principais:
+Este sistema é responsável por automatizar o processo de importação e execução de processos do BancoX. Ele consiste em dois módulos principais:
 
 1. **Importador**: Responsável por importar dados de planilhas Excel para o banco de dados
 2. **Executor**: Responsável por automatizar a execução dos processos no sistema
